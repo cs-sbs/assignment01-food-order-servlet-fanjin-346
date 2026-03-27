@@ -1,15 +1,14 @@
 package cs.sbs.web.model;
 
 public class Order {
-    // 静态计数器，保证全局唯一ID自增
-    private static int idCounter = 1001;
+    private static int nextId = 1001;
     private int orderId;
     private String customer;
     private String food;
     private int quantity;
 
     public Order(String customer, String food, int quantity) {
-        this.orderId = idCounter++;
+        this.orderId = nextId++;
         this.customer = customer;
         this.food = food;
         this.quantity = quantity;
