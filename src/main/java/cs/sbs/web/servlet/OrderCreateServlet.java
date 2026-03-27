@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCreateServlet extends HttpServlet {
+    // 静态存储，保证所有Servlet都能访问到同一份订单数据
     public static List<Order> orderList = new ArrayList<>();
 
     @Override
@@ -23,12 +24,13 @@ public class OrderCreateServlet extends HttpServlet {
         String food = request.getParameter("food");
         String quantityStr = request.getParameter("quantity");
 
-        // 异常处理
+        // 空参数校验
         if (customer == null || customer.isBlank() || food == null || food.isBlank()) {
             out.println("Error: customer and food cannot be empty");
             return;
         }
 
+        // 数量合法性校验
         int quantity;
         try {
             quantity = Integer.parseInt(quantityStr);
@@ -41,6 +43,7 @@ public class OrderCreateServlet extends HttpServlet {
             return;
         }
 
+        // 创建并保存订单
         Order order = new Order(customer, food, quantity);
         orderList.add(order);
         out.println("Order Created: " + order.getOrderId());

@@ -16,11 +16,13 @@ public class OrderDetailServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         String path = request.getPathInfo();
+        // 路径参数为空校验
         if (path == null || path.length() <= 1) {
             out.println("Error: order ID not found");
             return;
         }
 
+        // 解析订单ID
         int orderId;
         try {
             orderId = Integer.parseInt(path.substring(1));
@@ -29,23 +31,26 @@ public class OrderDetailServlet extends HttpServlet {
             return;
         }
 
-        Order target = null;
-        for (Order o : OrderCreateServlet.orderList) {
-            if (o.getOrderId() == orderId) {
-                target = o;
+        // 查询订单
+        Order targetOrder = null;
+        for (Order order : OrderCreateServlet.orderList) {
+            if (order.getOrderId() == orderId) {
+                targetOrder = order;
                 break;
             }
         }
 
-        if (target == null) {
+        // 订单不存在处理
+        if (targetOrder == null) {
             out.println("Error: order not found");
             return;
         }
 
+        // 返回订单详情
         out.println("Order Detail\n");
-        out.println("Order ID: " + target.getOrderId());
-        out.println("Customer: " + target.getCustomer());
-        out.println("Food: " + target.getFood());
-        out.println("Quantity: " + target.getQuantity());
+        out.println("Order ID: " + targetOrder.getOrderId());
+        out.println("Customer: " + targetOrder.getCustomer());
+        out.println("Food: " + targetOrder.getFood());
+        out.println("Quantity: " + targetOrder.getQuantity());
     }
 }

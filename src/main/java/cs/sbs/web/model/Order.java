@@ -1,6 +1,7 @@
 package cs.sbs.web.model;
 
 public class Order {
+    // 静态计数器，保证全局唯一ID自增
     private static int idCounter = 1001;
     private int orderId;
     private String customer;
@@ -14,8 +15,19 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public int getOrderId() { return orderId; }
-    public String getCustomer() { return customer; }
-    public String getFood() { return food; }
-    public int getQuantity() { return quantity; }
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public String getFood() {
+        return food;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }
