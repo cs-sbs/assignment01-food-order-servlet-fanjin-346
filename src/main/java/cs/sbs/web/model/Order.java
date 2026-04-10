@@ -1,14 +1,13 @@
 package cs.sbs.web.model;
 
 public class Order {
-    private static int nextId = 1001;
-    private int orderId;
-    private String customer;
-    private String food;
-    private int quantity;
+    private final int orderId;
+    private final String customer;
+    private final String food;
+    private final int quantity;
 
-    public Order(String customer, String food, int quantity) {
-        this.orderId = nextId++;
+    public Order(int orderId, String customer, String food, int quantity) {
+        this.orderId = orderId;
         this.customer = customer;
         this.food = food;
         this.quantity = quantity;

@@ -11,26 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCreateServlet extends HttpServlet {
-    // 全局静态订单存储 → 绝对不会丢失
+    // 公共静态订单列表，确保OrderDetailServlet可正常访问
     public static final List<Order> orderList = new ArrayList<>();
+    private static int nextOrderId = 1001;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/plain; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+        // 1. 获取表单参数
         String customer = request.getParameter("customer");
         String food = request.getParameter("food");
         String quantityStr = request.getParameter("quantity");
 
-        // 校验空值
+        // 2. 非空校验
         if (customer == null || customer.isBlank() || food == null || food.isBlank()) {
             out.println("Error: customer and food cannot be empty");
             return;
         }
 
-        // 校验数量
+        // 3. 数量合法性校验
         int quantity;
         try {
             quantity = Integer.parseInt(quantityStr);
@@ -38,16 +40,18 @@ public class OrderCreateServlet extends HttpServlet {
                 out.println("Error: quantity must be greater than 0");
                 return;
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             out.println("Error: quantity must be a valid number");
             return;
         }
 
-        // 创建订单
-        Order order = new Order(customer, food, quantity);
+        // 4. 创建订单并存储
+        Order order = new Order(nextOrderId++, customer, food, quantity);
         orderList.add(order);
 
-        // 返回格式必须严格匹配
+        // 5. 返回结果（符合作业要求）
         out.println("Order Created: " + order.getOrderId());
+        out.println("\nOrder #" + order.getOrderId() + " (Click to view details)");
+        out.println("http://localhost:8080/order/" + order.getOrderId());
     }
 }

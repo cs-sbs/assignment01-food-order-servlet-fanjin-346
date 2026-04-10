@@ -1,11 +1,9 @@
 package cs.sbs.web.model;
 
-import java.io.Serializable;
-
-public class MenuItem implements Serializable {
-    private int id;
-    private String name;
-    private double price;
+public class MenuItem {
+    private final int id;
+    private final String name;
+    private final double price;
 
     public MenuItem(int id, String name, double price) {
         this.id = id;
@@ -13,7 +11,15 @@ public class MenuItem implements Serializable {
         this.price = price;
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public double getPrice() { return price; }
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
 }
