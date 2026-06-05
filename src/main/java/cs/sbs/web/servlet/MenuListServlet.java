@@ -20,19 +20,20 @@ public class MenuListServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain; charset=UTF-8");
         PrintWriter out = response.getWriter();
         String name = request.getParameter("name");
 
         out.println("Menu List:\n");
 
+        // 核心修复：null(无参数) 或 空串(?name=) 都返回全菜单
         if (name == null || name.isBlank()) {
             for (MenuItem item : menuList) {
                 out.printf("%d. %s - $%.0f%n", item.getId(), item.getName(), item.getPrice());
             }
         } else {
+            // 关键词模糊搜索
             for (MenuItem item : menuList) {
                 if (item.getName().contains(name)) {
                     out.printf("%d. %s - $%.0f%n", item.getId(), item.getName(), item.getPrice());
