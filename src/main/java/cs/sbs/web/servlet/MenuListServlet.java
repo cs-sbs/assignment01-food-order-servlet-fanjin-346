@@ -26,15 +26,16 @@ public class MenuListServlet extends HttpServlet {
         String name = request.getParameter("name");
 
         out.println("Menu List:\n");
-        // null、空串?name= 都返回全菜单，修复失分用例
-        if(name == null || name.isBlank()){
-            for(MenuItem item : menuList){
-                out.printf("%d. %s - $%.0f%n",item.getId(),item.getName(),item.getPrice());
+        // 兼容低版本JDK，不用isBlank，解决?name=空参数
+        if(name == null || "".equals(name.trim())){
+            for (MenuItem item : menuList) {
+                out.printf("%d. %s - $%.0f%n", item.getId(), item.getName(), item.getPrice());
             }
-        }else{
-            for(MenuItem item : menuList){
-                if(item.getName().contains(name)){
-                    out.printf("%d. %s - $%.0f%n",item.getId(),item.getName(),item.getPrice());
+        } else {
+            String key = name.trim();
+            for (MenuItem item : menuList) {
+                if (item.getName().contains(key)) {
+                    out.printf("%d. %s - $%.0f%n", item.getId(), item.getName(), item.getPrice());
                 }
             }
         }
